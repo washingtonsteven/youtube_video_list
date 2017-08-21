@@ -21,17 +21,33 @@ exports = module.exports = function(req, res) {
     var channelId = data.items[0].id;
 
     console.log('finding video: '+channelId);
-    Video.find({'channel.channelId':channelId}).exec(function(verr, vdata){
+    Video.find({'channel.channelId':channelId}).sort('-created').exec(function(verr, vdata){
         if (verr) {
           res.status(400).json({verr}); return;
         }
 
-        console.log('finding video complete ');
-        console.log(vdata);
         if (!vdata || vdata.length <= 0) {
           yt_request(res, data.items[0].contentDetails.relatedPlaylists.uploads);
         } else {
-          res.status(200).json({'alreadyscraped':true, vdata, data});
+          youtube.search.list({
+            channelId:channelId,
+            part:'snippet',
+            type:'video',
+            publishedAfter:vdata[0].created.toISOString(),
+            publishedBefore:(new Date()).toISOString()
+          }, function(serr, sdata){
+            console.log(serr);
+            var vids = [];
+            for(vidKey in sdata.items) {
+              var vid = sdata.items[vidKey];
+              var vidDoc = createVidDoc(vid, data.items[0].contentDetails.relatedPlaylists.uploads);
+              vids.push(vidDoc);
+            }
+
+            Video.create(vids, function(merr, createdVids){
+              res.status(200).json({'alreadyscraped':true, sdata, data, vdata, merr, createdVids});
+            });
+          })
         }
       });
 
@@ -84,32 +100,8 @@ function yt_request(res, playlistId) {
         var vids = [];
 
         for(vidIndex in pdata.items) {
-          var vid = pdata.items[0];
-          var vidDoc = {
-            videoId:vid.id,
-            title:vid.snippet.title,
-            description:vid.snippet.description,
-            publishedAt:new Date(vid.snippet.publishedAt),
-            channel:{
-              channelId:vid.snippet.channelId,
-              channelTitle:vid.snippet.channelTitle,
-              uploadsPlaylist:playlistId
-            },
-            thumbnails:[],
-            created:Date.now()
-          };
-
-          for(thumbKey in vid.snippet.thumbnails) {
-            var thumb = vid.snippet.thumbnails[thumbKey];
-            var thumbDoc = {
-              size:thumbKey,
-              url:thumb.url,
-              width:thumb.width,
-              height:thumb.height
-            }
-
-            vidDoc.thumbnails.push(thumbDoc);
-          }
+          var vid = pdata.items[vidIndex];
+          var vidDoc = createVidDoc(vid, playlistId);
 
           vids.push(vidDoc);
         }
@@ -126,4 +118,34 @@ function yt_request(res, playlistId) {
       }
     }
   });
+}
+
+function createVidDoc(vid, playlistId) {
+  var vidDoc = {
+    videoId:vid.id,
+    title:vid.snippet.title,
+    description:vid.snippet.description,
+    publishedAt:new Date(vid.snippet.publishedAt),
+    channel:{
+      channelId:vid.snippet.channelId,
+      channelTitle:vid.snippet.channelTitle,
+      uploadsPlaylist:playlistId
+    },
+    thumbnails:[],
+    created:Date.now()
+  };
+
+  for(thumbKey in vid.snippet.thumbnails) {
+    var thumb = vid.snippet.thumbnails[thumbKey];
+    var thumbDoc = {
+      size:thumbKey,
+      url:thumb.url,
+      width:thumb.width,
+      height:thumb.height
+    }
+
+    vidDoc.thumbnails.push(thumbDoc);
+  }
+
+  return vidDoc;
 }
