@@ -1,13 +1,25 @@
 {
-  "name": "yt-channel-randomizer",
+  "name": "@esaevian/yt-channel-randomizer",
   "version": "0.0.0",
-  "private": true,
   "scripts": {
-    "start":"node bin/start"
+    "start": "node bin/start"
   },
   "dependencies": {
     "dotenv": "^4.0.0",
     "googleapis": "^20.1.0",
     "yargs": "^10.0.3"
-  }
+  },
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/washingtonsteven/yt-channel-randomizer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/washingtonsteven/yt-channel-randomizer/issues"
+  },
+  "homepage": "https://github.com/washingtonsteven/yt-channel-randomizer#readme",
+  "description": ""
 }
