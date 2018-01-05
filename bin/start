@@ -3,4 +3,6 @@ require('dotenv').config();
 
 const argv = require('yargs').argv;
 
-require('../index')(argv._[0] || false, process.env.YOUTUBE_API_KEY).then(vids => console.log(vids.map(v => `${v.title} - ${v.publishedAt}`)));
+require('../index')(argv._[0] || false, process.env.YOUTUBE_API_KEY)
+  .then(vids => console.log(vids.map(v => `${v.title} - ${v.publishedAt}`)))
+  .catch(err => { console.error(err); });
