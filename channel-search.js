@@ -1,11 +1,11 @@
 const youtube = require('./promisify_google');
 
-module.exports = (channelName = 'downrightdpad') => {
+module.exports = channelName => {
   const opts = {
     forUsername:channelName,
     part:'id, contentDetails'
   };
-  
+
   return youtube.channelList(opts)
     .then(channelsData => {
       if (!channelsData.items || channelsData.items.length === 0) {
