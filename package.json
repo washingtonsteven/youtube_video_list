@@ -1,5 +1,5 @@
 {
-  "name": "youtube_video_list",
+  "name": "@esaevian/youtube_video_list",
   "version": "0.0.1",
   "scripts": {
     "start": "node bin/start",
@@ -19,11 +19,17 @@
     "type": "git",
     "url": "git+https://github.com/washingtonsteven/yt-channel-randomizer.git"
   },
-  "author": "",
+  "author": "Steven Washington",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/washingtonsteven/yt-channel-randomizer/issues"
   },
   "homepage": "https://github.com/washingtonsteven/yt-channel-randomizer#readme",
-  "description": ""
+  "description": "Use google APIs to get a list of all videos on a channel in an array",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "youtube"
+  ]
 }

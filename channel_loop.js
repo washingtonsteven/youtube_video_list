@@ -1,4 +1,4 @@
-const youtube = require('./promisify_google');
+const GooglePromise = require('./googlePromise');
 const channelSearch = require('./channel_search');
 
 module.exports = channelName => {
@@ -20,7 +20,7 @@ const getUploads = (playlistId, nextPageToken = '', videos = []) => {
     pageToken:nextPageToken
   };
 
-  return youtube.playlistItemsList(opts)
+  return GooglePromise.playlistItemsList(opts)
     .then(playlistItems => {
       const currentVids = playlistItems.items.map(item => {
         const snippet = item.snippet; 

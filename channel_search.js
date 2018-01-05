@@ -1,4 +1,4 @@
-const youtube = require('./promisify_google');
+const GooglePromise = require('./googlePromise');
 
 module.exports = channelName => {
   const opts = {
@@ -6,7 +6,7 @@ module.exports = channelName => {
     part:'id, contentDetails'
   };
 
-  return youtube.channelList(opts)
+  return GooglePromise.channelList(opts)
     .then(channelsData => {
       if (!channelsData.items || channelsData.items.length === 0) {
         return Promise.reject(new Error('No Channels Found'));

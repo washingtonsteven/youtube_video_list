@@ -1,9 +1,16 @@
 const channelLoop = require('./channel_loop');
+const GooglePromise = require('./googlePromise');
 
-module.exports = channelName => {
+module.exports = (channelName, API_KEY) => {
+  if (!API_KEY) {
+    return Promise.reject(new Error('You must provide a valid Youtube API key'))
+  } else {
+    GooglePromise.setAPIKey(API_KEY);
+  }
+
   if (!channelName) {
     return Promise.reject(new Error('You must provide a channel name!'));
   }
-  return channelLoop(channelName)
-    .catch( err => {console.log('== youtube_video_list:Caught error =='); console.error(err); throw err; } );
+
+  return channelLoop(channelName);
 }
