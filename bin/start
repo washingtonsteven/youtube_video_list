@@ -1,0 +1,5 @@
+#!/usr/bin/env/node
+
+const argv = require('yargs').argv;
+
+require('../index')(argv._[0] || false);
