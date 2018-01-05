@@ -1,8 +1,9 @@
 {
-  "name": "@esaevian/yt-channel-randomizer",
-  "version": "0.0.0",
+  "name": "youtube_video_list",
+  "version": "0.0.1",
   "scripts": {
-    "start": "node bin/start"
+    "start": "node bin/start",
+    "test": "mocha"
   },
   "dependencies": {
     "dotenv": "^4.0.0",
@@ -10,7 +11,10 @@
     "yargs": "^10.0.3"
   },
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.1.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/washingtonsteven/yt-channel-randomizer.git"

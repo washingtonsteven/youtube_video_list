@@ -1,10 +1,9 @@
-const channelLoop = require('./channel-loop');
+const channelLoop = require('./channel_loop');
 
 module.exports = channelName => {
   if (!channelName) {
-    throw new Error('You must provide a channel name!');
+    return Promise.reject(new Error('You must provide a channel name!'));
   }
-  channelLoop(channelName)
-  .then( vids => console.log(vids.map(v => `${v.title} - ${v.publishedAt}`)) )
-  .catch( err => {console.log('== index:Caught error =='); console.error(err) } );
+  return channelLoop(channelName)
+    .catch( err => {console.log('== youtube_video_list:Caught error =='); console.error(err); throw err; } );
 }

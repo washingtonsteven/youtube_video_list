@@ -1,5 +1,5 @@
 const youtube = require('./promisify_google');
-const channelSearch = require('./channel-search');
+const channelSearch = require('./channel_search');
 
 module.exports = channelName => {
   return channelInfo = channelSearch(channelName)
