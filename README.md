@@ -5,7 +5,7 @@
 Clone the repo. May also be on npm (I'm thinkin about it):
 
 ```
-npm install --save youtube_video_list
+npm install --save washingtonsteven/youtube_video_list
 ```
 
 ## Use
